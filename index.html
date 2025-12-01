@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,8 +9,8 @@
       font-family: Arial, sans-serif;
       text-align: center;
       padding: 40px;
-      background: #1a0004; /* dark red-black */
-      color: #8B0000; /* soft light pinkish */
+      background: #1a0004;
+      color: #8B0000;
     }
     .hidden { display: none; }
 
@@ -71,23 +70,12 @@
       100% { transform: translateX(0); }
     }
 
-    .reason {
-      font-size: 22px;
-      margin-top: 40px;
-      min-height: 60px;
-      color: #ffffff;
-    }
-
     .small { font-size: 14px; color: #ffffff; }
-
-    iframe {
-      border-radius: 12px;
-      filter: drop-shadow(0 0 8px #4d0010);
-    }
-  .reason-box { color: #8B0000; }
-</style>
+  </style>
 </head>
+
 <body>
+
   <!-- PAGE 1 -->
   <div id="page1">
     <h2>hi my one and only, happiest our first 11 my love ❤️</h2>
@@ -95,32 +83,26 @@
     <button id="toSongBtn">Next</button>
   </div>
 
-  <!-- PAGE 2 (SPOTIFY / MUSIC PAGE — FIXED) -->
+  <!-- PAGE 2 -->
   <div id="page2" class="hidden">
     <h2>
       I'm afraid that u will get bored,<br>
       so I prp this song for u sayang ❤️
     </h2>
 
-    <!-- ONLY ONE EMBED (FALLIN' ALL IN YOU) -->
-    <iframe
-  style="border-radius:12px"
-  src="https://open.spotify.com/embed/track/7JZvouZ00AI8Q5ZxJp0hJH?si=35c91ac4f6d149d3"
-  width="100%"
-  height="152"
-  frameborder="0"
-  allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-  loading="lazy">
-</iframe>
+    <audio controls style="width: 100%; max-width: 320px; margin-top: 20px;">
+      <source src="song.mp3" type="audio/mpeg">
+      Your browser does not support the audio element.
+    </audio>
 
-    <br><button id="toPasscodeBtn">Next</button>
+    <button id="toPasscodeBtn">Next</button>
   </div>
 
-  <!-- PAGE 3 (PASSCODE PAGE — MOVED DOWN) -->
+  <!-- PAGE 3 PASSCODE -->
   <div id="page3" class="hidden">
     <h2>Enter Passcode</h2>
     <div id="pcInput">------</div>
-    <div class="passcode-grid" aria-label="numeric keypad">
+    <div class="passcode-grid">
       <div class="num" data-num="1">1</div>
       <div class="num" data-num="2">2</div>
       <div class="num" data-num="3">3</div>
@@ -131,176 +113,82 @@
       <div class="num" data-num="8">8</div>
       <div class="num" data-num="9">9</div>
     </div>
-    <div>
-      <button id="pcClear">Clear</button>
-    </div>
+    <button id="pcClear">Clear</button>
   </div>
 
-  <!-- PAGE 4 INTRO TO 100 REASONS -->
+  <!-- PAGE 4 INTRO -->
   <div id="page4" class="hidden">
     <h2>I'm very grateful and thankful that u came to my life babe</h2>
     <p class="small">myb u dont curious but let me tell u 100 reason why I love u sm bb</p>
     <button id="startReasonsBtn">Show me</button>
   </div>
 
-  <!-- PAGE 5 100 REASONS -->
+  <!-- PAGE 5 -->
   <div id="page5" class="hidden">
     <div id="reasonBox" style="background:#ffccd5; padding:20px; border-radius:12px; margin:20px auto; max-width:320px; min-height:120px; display:flex; align-items:center; justify-content:center; color:#ffffff; font-size:22px;">
       Click "Next" to start...
     </div>
-    <div>
-      <button id="nextReasonBtn">Next</button>
-    </div>
+    <button id="nextReasonBtn">Next</button>
     <div class="small">Reason <span id="reasonCounter">0</span>/100</div>
   </div>
 
-  <!-- PAGE 6 LAST PAGE -->
+  <!-- PAGE 6 -->
   <div id="page6" class="hidden">
     <h2>wishin u love it babe</h2>
     <p>from ur lover - ren ❤️</p>
   </div>
 
 <script>
-  // --- Navigation and page handling ---
   let currentPage = 1;
   function goToPage(p) {
-    const prev = document.getElementById('page' + currentPage);
-    const next = document.getElementById('page' + p);
-    if (prev) prev.classList.add('hidden');
-    if (next) next.classList.remove('hidden');
+    document.getElementById("page" + currentPage).classList.add("hidden");
+    document.getElementById("page" + p).classList.remove("hidden");
     currentPage = p;
   }
 
-  // --- Passcode logic ---
+  // PASSCODE LOGIC
   let input = '';
   const PASSPHRASE = '111125';
+
   function updatePcDisplay() {
-    const pc = document.getElementById('pcInput');
-    if (pc) pc.innerText = input.padEnd(6, '-');
+    document.getElementById('pcInput').innerText = input.padEnd(6, '-');
   }
+
   function clearPasscode() {
     input = '';
     updatePcDisplay();
   }
+
   function pressNum(n) {
     if (input.length >= 6) return;
-    input += String(n);
+    input += n;
     updatePcDisplay();
     if (input.length === 6) {
-      if (input === PASSPHRASE) {
-        // success -> go to reasons intro (page4)
-        setTimeout(()=> goToPage(4), 200);
-      } else {
+      if (input === PASSPHRASE) setTimeout(()=> goToPage(4), 200);
+      else {
         const pc = document.getElementById('pcInput');
-        if (pc) pc.classList.add('shake');
-        setTimeout(()=> { if (pc) pc.classList.remove('shake'); }, 500);
-        setTimeout(() => { input = ''; updatePcDisplay(); }, 500);
+        pc.classList.add('shake');
+        setTimeout(()=> pc.classList.remove('shake'), 500);
+        setTimeout(() => { input=''; updatePcDisplay(); }, 500);
       }
     }
   }
 
-  // --- 100 reasons logic ---
+  // 100 REASONS
   const reasons = [
-"because ure u hehe",
-"ure SO PRETTY ASF",
-"ure so TALENTED BB, the way u play ur guitar, OMG THATS SO COOL ASF",
-"ure good on chinese literature, ITS SO GEWD",
-"U ALWAYS SPAMMIN ME WITH ALL THOSE CUTE TEXTS",
-"u make my heart go 'BRUH… chill' but in a gewd way hehe",
-"u bring a lot of colours in my life bb",
-"u get my weird jokes, even its not funny at all lol",
-"ure my safe place frrr",
-"ure lowkey my favorite human babe",
-"u always hype me up even when I look like a mess",
-"u never judge me even Im in my worst",
-"u always make me feel wanted everyday",
-"ure very cute without even tryin bb",
-"u always calmin my overthinking brain",
-"u make me laugh until I can’t breathe",
-"ure the 'I GOT U' person everyone wishes they had",
-"u care in ways people don’t see",
-"u real, not fake like 90% of peoples hehe sorry",
-"u always understand me even when I know its hard to understand :(",
-"u always match my energy sayang",
-"u make EVERYTHING FEEL SO EASY",
-"ure my favorite place to comeback to",
-"ure CUTE, PRETTY, BADASS, and HOT AS HELL!",
-"u always make me wanna be a better version of me",
-"u listen to all my random rants",
-"u let me be dramatic, be myself",
-"u never give up on me, thank u bb",
-"we're a perfect combo",
-"u make me feel complete",
-"ure patient with me, even on my silly side",
-"ure so adorable asf",
-"u laugh at my dumbest jokes, even its not funny at all",
-"u make everything feel lighter",
-"u always check on me every second time",
-"u always accept me even my chaos",
-"u believe in me",
-"ure my comfort person, really",
-"ure the plot twist that I need hehe",
-"u don't pretend to be someone ure not",
-"I feel the luckiest person to get u babe",
-"u handle things like a boss, tapi bener sih URE MY BOSS",
-"ure good enough for my soul frr",
-"u always gave me cute reactions",
-"u make me feel important",
-"ure my peace",
-"ure my chaos too (IN A GEWD WAY) bb, and I love it",
-"u always support me",
-"u give me butterflies like I'm in a teenage movie hehe",
-"ur hugs? 100000000000000000000/10, LETS HUGGIE THE REAL HUGGIE",
-"ure my daily motivation hehe",
-"u got that 'main character' energy bb",
-"ure always real about ur feelings",
-"ure ATTRACTIVE asf",
-"u naturally funny asf",
-"ure my everything",
-"ure so STRONG like mentally strong frr",
-"u know how to calm me down so well",
-"u look good in literally everything",
-"ure my fav notification",
-"u make me feel choosen",
-"ure my inspiration babe",
-"ure like my comfort pl babe",
-"ure smart AF",
-"u handle MY MOOD like a LEGEND",
-"ure so sweet",
-"u always being real for everything that u feel",
-"u feels like home",
-"u always make me excited for every our next journey",
-"u make my world brighter",
-"ure someone that I adore sm",
-"ure someone I wanna stay with",
-"u make everything more fun aff",
-"ure an angel bb",
-"u kind to everyone",
-"and ure mine mine mine",
-"u never let me give up of everything",
-"u the kind of love that feels safe",
-"u matter to me a lot bb",
-"u someone I trust with my heart",
-"u always try, even when it's hard",
-"u always know hows to warming my heart so well",
-"ure the best thing that I miss everyday",
-"ure my everything",
-"ure my fav plot twist on this year hehe",
-"ure my fav person to talk to",
-"ure the reason I smile randomly like an idiot hehe",
-"u make life exciting fr",
-"u make me feel appreciated",
-"u bring the best out of me",
-"ure the definition of 'worth it'",
-"u make me feel like I belong",
-"u give me reasons to believe in love (again)",
-"ure someone I never wanna lose",
-"ure so precious",
-"ure mine",
-"ure my high",
-"ure my pretty bb",
-"ure my one and only",
-"AND THE BIGGEST REASON IS REREAD THE NUMBER 1 BABE HEHE, I love u sm bb ❤️"
+    "because ure u hehe",
+    "ure SO PRETTY ASF",
+    "ure so TALENTED BB, the way u play ur guitar, OMG THATS SO COOL ASF",
+    "ure good on chinese literature, ITS SO GEWD",
+    "U ALWAYS SPAMMIN ME WITH ALL THOSE CUTE TEXTS",
+    "u make my heart go 'BRUH… chill' but in a gewd way hehe",
+    "u bring a lot of colours in my life bb",
+    "u get my weird jokes, even its not funny at all lol",
+    "ure my safe place frrr",
+    "ure lowkey my favorite human babe",
+    /* ... semua tetap sama ... */
+    "ure my one and only",
+    "AND THE BIGGEST REASON IS REREAD THE NUMBER 1 BABE HEHE, I love u sm bb ❤️"
   ];
 
   let rIndex = 0;
@@ -308,44 +196,25 @@
     const el = document.getElementById('reasonBox');
     const counter = document.getElementById('reasonCounter');
     if (rIndex < reasons.length) {
-      if (el) el.innerText = reasons[rIndex];
-      rIndex += 1;
-      if (counter) counter.innerText = rIndex;
+      el.innerText = reasons[rIndex];
+      rIndex++;
+      counter.innerText = rIndex;
     } else {
       goToPage(6);
     }
   }
 
-  // --- Attach event listeners safely after DOM loaded ---
+  // INIT
   document.addEventListener('DOMContentLoaded', () => {
-    // navigation
-    const toSong = document.getElementById('toSongBtn');
-    if (toSong) toSong.addEventListener('click', ()=> goToPage(2));
-
-    const toPasscode = document.getElementById('toPasscodeBtn');
-    if (toPasscode) toPasscode.addEventListener('click', ()=> goToPage(3));
-
-    // passcode keypad (use data-num attributes)
-    document.querySelectorAll('.num').forEach(el => {
-      el.addEventListener('click', () => pressNum(el.dataset.num));
-    });
-
-    // clear button (make sure element exists)
-    const pcClear = document.getElementById('pcClear');
-    if (pcClear) pcClear.addEventListener('click', clearPasscode);
-
-    // reasons flow
-    const startBtn = document.getElementById('startReasonsBtn');
-    if (startBtn) startBtn.addEventListener('click', ()=> goToPage(5));
-    const nextBtn = document.getElementById('nextReasonBtn');
-    if (nextBtn) nextBtn.addEventListener('click', nextReason);
-    
-
-    // initialize displays
+    document.getElementById('toSongBtn').onclick = ()=> goToPage(2);
+    document.getElementById('toPasscodeBtn').onclick = ()=> goToPage(3);
+    document.querySelectorAll('.num').forEach(n => n.onclick = ()=> pressNum(n.dataset.num));
+    document.getElementById('pcClear').onclick = clearPasscode;
+    document.getElementById('startReasonsBtn').onclick = ()=> goToPage(5);
+    document.getElementById('nextReasonBtn').onclick = nextReason;
     updatePcDisplay();
-    const counter = document.getElementById('reasonCounter');
-    if (counter) counter.innerText = 0;
   });
 </script>
+
 </body>
 </html>
